@@ -1,7 +1,5 @@
-// handler.cpp
 #include "handler.h"
-
-TaskManager::TaskManager(MessageQueue& mq) : message_queue(mq) {}
+#include <iostream>
 
 std::vector<Task> TaskManager::get_all_tasks() {
     std::lock_guard<std::mutex> lock(mtx);
@@ -36,10 +34,23 @@ bool TaskManager::update_task(int id, const Task& task) {
     return false;
 }
 
+// НОВЫЙ МЕТОД - обновление только статуса
+bool TaskManager::patch_task(int id, const std::string& status) {
+    std::lock_guard<std::mutex> lock(mtx);
+    for (auto& t : tasks) {
+        if (t.id == id) {
+            t.status = Task::string_to_status(status);
+            return true;
+        }
+    }
+    return false;
+}
+
 bool TaskManager::delete_task(int id) {
     std::lock_guard<std::mutex> lock(mtx);
     auto it = std::remove_if(tasks.begin(), tasks.end(),
         [id](const Task& t) { return t.id == id; });
+
     if (it != tasks.end()) {
         tasks.erase(it, tasks.end());
         return true;
