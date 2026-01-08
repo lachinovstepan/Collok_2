@@ -294,7 +294,6 @@ namespace httplib {
             }
             return false;
         }
-
         std::vector<std::pair<std::string, Handler>> get_handlers_;
         std::vector<std::pair<std::string, Handler>> post_handlers_;
         std::vector<std::pair<std::string, Handler>> put_handlers_;
