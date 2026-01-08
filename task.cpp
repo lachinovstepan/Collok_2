@@ -71,7 +71,6 @@ std::string Task::status_to_string(TaskStatus s) {
     default: return "todo";
     }
 }
-
 TaskStatus Task::string_to_status(const std::string& s) {
     if (s == "in_progress") return TaskStatus::IN_PROGRESS;
     if (s == "done") return TaskStatus::DONE;
